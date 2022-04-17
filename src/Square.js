@@ -1,18 +1,26 @@
 import React from "react";
 
-export default function Square({ currentPlayer, setNextPlayer, squareItem }) {
-  const handleOnClick = (event) => {
+export default function Square({
+  currentPlayer,
+  setNextPlayer,
+  squareItem,
+  onUpdateBoard,
+}) {
+  const handleOnClick = (event, squareItem) => {
     event.preventDefault();
-    console.log("Great");
-    if (currentPlayer.player === 1) {
-      return setNextPlayer({ player: 2, letter: "O" });
-    } else {
-      return setNextPlayer({ player: 1, letter: "X" });
+    if (squareItem.occupiedBy === "") {
+      onUpdateBoard(squareItem.id, currentPlayer.letter);
+
+      if (currentPlayer.player === 1) {
+        return setNextPlayer({ player: 2, letter: "O" });
+      } else {
+        return setNextPlayer({ player: 1, letter: "X" });
+      }
     }
   };
 
   return (
-    <div onClick={handleOnClick} className="square">
+    <div onClick={(e) => handleOnClick(e, squareItem)} className="square">
       {squareItem.occupiedBy}
     </div>
   );
